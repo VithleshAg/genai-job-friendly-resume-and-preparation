@@ -4,7 +4,7 @@ import "../form.scss"
 import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
-    const { loading, handleLogin, message: { type } } = useAuth()
+    const { loading, handleLogin, user, message: { type } } = useAuth()
     const navigate = useNavigate()
 
     const [ email, setEmail ] = useState("")
@@ -14,6 +14,10 @@ const Login = () => {
         e.preventDefault()
         await handleLogin({email,password})
     }
+
+    useEffect(() => {
+        if(user) navigate('/')
+    }, [user])
 
     useEffect(() => {
         if(type === 'success') navigate('/')

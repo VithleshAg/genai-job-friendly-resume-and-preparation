@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router"
 import { useAuth } from "../hooks/useAuth"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const Register = () => {
-    const { loading, handleRegister, message: { type } } = useAuth()
+    const { loading, handleRegister, user, message: { type } } = useAuth()
     const navigate = useNavigate()
 
     const [username, setUsername] = useState("")
@@ -14,6 +14,10 @@ const Register = () => {
         e.preventDefault()
         await handleRegister({ username, email, password })
     }
+
+    useEffect(() => {
+        if (user) navigate('/')
+    }, [user])
 
     useEffect(() => {
         if (type === 'success') navigate('/')
