@@ -1,5 +1,7 @@
 const { GoogleGenAI } = require("@google/genai")
 const { z } = require("zod")
+// const { zodToJsonSchema } = require("zod-to-json-schema")
+
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GENAI_API_KEY
@@ -131,7 +133,7 @@ Job Description: ${jobDescription}
 `;
 
     const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-lite",
+        model: "gemini-2.5-flash",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
@@ -140,6 +142,7 @@ Job Description: ${jobDescription}
     })
 
     console.log(JSON.parse(response.text))
+    return JSON.parse(response.text)
 }
 
 module.exports = { generateInterviewReport }
