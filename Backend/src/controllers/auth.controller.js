@@ -35,7 +35,13 @@ exports.register = async (req, res) => {
 
         const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-        res.cookie('token', token)
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,        // ← required for sameSite: none
+            sameSite: 'none',    // ← required for cross-domain
+            maxAge: 7 * 24 * 60 * 60 * 1000  // 7 days (or whatever you have)
+        })
+
 
         res.status(201).json({
             message: "User registered successfully",
@@ -79,7 +85,13 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-        res.cookie('token', token)
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,        // ← required for sameSite: none
+            sameSite: 'none',    // ← required for cross-domain
+            maxAge: 7 * 24 * 60 * 60 * 1000  // 7 days (or whatever you have)
+        })
+
 
         res.status(200).json({
             message: "User logged in successfully",
@@ -108,7 +120,7 @@ exports.logout = async (req, res) => {
         if (!token) {
             return res.status(400).json({ message: "No token provided" });
         }
-        
+
         await blacklistTokenModel.create({ token });
 
         res.clearCookie('token');
