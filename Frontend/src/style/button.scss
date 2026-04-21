@@ -1,19 +1,48 @@
-.button{
+.button {
     border: none;
     outline: none;
     padding-inline: 1.5rem;
     padding-block: 0.75rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
 
-    transition: all 0.3s ease-in-out;
+    &.primary-button {
+        background: linear-gradient(135deg, #00e5a0 0%, #00c285 100%);
+        color: #050c12;
+        box-shadow: 0 0 20px rgba(0, 229, 160, 0.25);
 
-    &.primary-button{
-        background-color: #e1034d;
-        color: white;
+        &:hover {
+            box-shadow: 0 0 30px rgba(0, 229, 160, 0.45);
+            transform: translateY(-1px);
+        }
     }
 
-    &:active{
-        transform: scale(0.9);
+    &.ghost-button {
+        background: transparent;
+        color: #00e5a0;
+        border: 1px solid rgba(0, 229, 160, 0.3);
+
+        &:hover {
+            border-color: #00e5a0;
+            background: rgba(0, 229, 160, 0.05);
+        }
+    }
+
+    &:active {
+        transform: scale(0.97) translateY(0);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
     }
 }

@@ -1,44 +1,240 @@
-main{
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+main.auth-main {
     min-height: 100vh;
     width: 100%;
-
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    background: #050c12;
+    position: relative;
+    overflow: hidden;
 
-
-    .form-container{
-        min-width: 350px;
-
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+    // Decorative grid
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(0, 229, 160, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 229, 160, 0.04) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
     }
 
-    form{
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
+    // Glow orb
+    &::after {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(0, 229, 160, 0.06) 0%, transparent 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
     }
+}
 
-    .input-group{
+.auth-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    padding: 1rem;
+}
+
+.auth-card {
+    background: #0a1a14;
+    border: 1px solid rgba(0, 229, 160, 0.15);
+    border-radius: 1.25rem;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    box-shadow:
+        0 0 0 1px rgba(0, 229, 160, 0.05),
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(0, 229, 160, 0.08);
+
+    animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    .auth-logo {
         display: flex;
-        flex-direction: column;
-
+        align-items: center;
         gap: 0.5rem;
+        margin-bottom: 0.75rem;
 
+        .auth-logo__dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00e5a0;
+            box-shadow: 0 0 10px #00e5a0;
+            animation: blink 2s ease-in-out infinite;
+        }
 
-        input{
-            border: none;
-            outline: none;
-            padding-inline: 1rem;
-            padding-block: 0.75rem;
-            border-radius: 0.75rem;
+        span {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: #00e5a0;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
     }
 
-    a{
-        color: #e1034d;
-        text-decoration: none;
+    h1 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #dff0e8;
+        line-height: 1.2;
     }
+
+    p {
+        font-size: 0.85rem;
+        color: #4d7a66;
+        line-height: 1.5;
+    }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #7ab89a;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .input-wrapper {
+        position: relative;
+
+        input {
+            width: 100%;
+            background: #071510;
+            border: 1px solid rgba(0, 229, 160, 0.12);
+            border-radius: 0.6rem;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            color: #dff0e8;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+
+            &::placeholder {
+                color: #2a4a38;
+            }
+
+            &:focus {
+                border-color: rgba(0, 229, 160, 0.5);
+                box-shadow: 0 0 0 3px rgba(0, 229, 160, 0.08);
+            }
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3a6650;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+
+        &:focus-within .input-icon {
+            color: #00e5a0;
+        }
+    }
+}
+
+.auth-submit {
+    width: 100%;
+    padding: 0.85rem;
+    background: linear-gradient(135deg, #00e5a0 0%, #00c285 100%);
+    color: #050c12;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    box-shadow: 0 0 25px rgba(0, 229, 160, 0.3);
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+
+    &:hover {
+        box-shadow: 0 0 35px rgba(0, 229, 160, 0.5);
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+.auth-footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #3d6650;
+
+    a {
+        color: #00e5a0;
+        text-decoration: none;
+        font-weight: 600;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+.auth-error {
+    background: rgba(255, 70, 70, 0.1);
+    border: 1px solid rgba(255, 70, 70, 0.25);
+    border-radius: 0.5rem;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.82rem;
+    color: #ff8080;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }

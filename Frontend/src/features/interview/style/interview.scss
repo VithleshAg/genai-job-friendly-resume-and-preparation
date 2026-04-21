@@ -1,55 +1,76 @@
-// ── Shared Variables (mirrors home.scss theme) ────────────────────────────────
-$bg-page: #0d1117;
-$bg-card: #161b22;
-$bg-panel: #1c2230;
-$bg-input: #1e2535;
-$border-color: #2a3348;
-$text-primary: #e6edf3;
-$text-muted: #7d8590;
-$accent: #ff2d78;
-$font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
-// severity palette
-$severity-high: #ff4d4d;
-$severity-medium: #f5a623;
-$severity-low: #3fb950;
+// ── Variables ─────────────────────────────────────────────────────────────────
+$bg:           #050c12;
+$bg-card:      #091812;
+$bg-panel:     #0d2118;
+$bg-input:     #071510;
+$border:       rgba(0, 229, 160, 0.12);
+$text:         #dff0e8;
+$muted:        #3d6650;
+$accent:       #00e5a0;
+$font-mono:    'Space Mono', monospace;
+$font-body:    'Outfit', sans-serif;
+$high:         #ff4d4d;
+$mid:          #f5a623;
+$low:          #3fb950;
 
-*::-webkit-scrollbar {
-    display: none;
-}
+*::-webkit-scrollbar { display: none; }
 
 // ── Page Shell ────────────────────────────────────────────────────────────────
 .interview-page {
     width: 100%;
     min-height: 100vh;
-    background-color: $bg-page;
-    color: $text-primary;
-    font-family: $font-stack;
+    background: $bg;
+    color: $text;
+    font-family: $font-body;
     display: flex;
     align-items: stretch;
-    padding: 1.5rem;
+    padding: 1.25rem;
     box-sizing: border-box;
+
+    &::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(0, 229, 160, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 229, 160, 0.02) 1px, transparent 1px);
+        background-size: 50px 50px;
+        pointer-events: none;
+        z-index: 0;
+    }
 }
 
 // ── 3-Column Layout ───────────────────────────────────────────────────────────
 .interview-layout {
     display: flex;
     width: 100%;
-    max-width: 1280px;
+    max-width: 1300px;
     margin: 0 auto;
-    background-color: $bg-card;
-    border: 1px solid $border-color;
-    border-radius: 1rem;
-    justify-content: space-between;
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: 1.25rem;
+    position: relative;
+    z-index: 1;
+    box-shadow:
+        0 0 0 1px rgba(0, 229, 160, 0.03),
+        0 30px 80px rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .interview-divider {
     width: 1px;
-    background-color: $border-color;
+    background: $border;
     flex-shrink: 0;
 }
 
-// ── Left Nav ─────────────────────────────────────────────────────────────────
+// ── Left Nav ──────────────────────────────────────────────────────────────────
 .interview-nav {
     width: 220px;
     flex-shrink: 0;
@@ -59,17 +80,47 @@ $severity-low: #3fb950;
     justify-content: space-between;
     gap: 0.25rem;
 
+    &__brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0 0.75rem;
+        margin-bottom: 1.25rem;
 
+        .brand-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: $accent;
+            box-shadow: 0 0 8px $accent;
+            animation: blink 2s ease-in-out infinite;
+        }
 
+        span {
+            font-family: $font-mono;
+            font-size: 0.7rem;
+            color: $accent;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    }
 
     &__label {
-        font-size: 0.7rem;
-        font-weight: 600;
+        font-family: $font-mono;
+        font-size: 0.65rem;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: $text-muted;
+        letter-spacing: 0.1em;
+        color: $muted;
         padding: 0 0.75rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .nav-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
     }
 
     &__item {
@@ -77,29 +128,27 @@ $severity-low: #3fb950;
         align-items: center;
         gap: 0.6rem;
         width: 100%;
-        padding: 0.65rem 0.75rem;
+        padding: 0.6rem 0.75rem;
         background: none;
         border: none;
         border-radius: 0.5rem;
-        color: $text-muted;
-        font-family: $font-stack;
-        font-size: 0.875rem;
+        color: $muted;
+        font-family: $font-body;
+        font-size: 0.84rem;
+        font-weight: 500;
         cursor: pointer;
         text-align: left;
-        transition: background-color 0.15s, color 0.15s;
+        transition: background 0.15s, color 0.15s;
 
         &:hover {
-            background-color: $bg-panel;
-            color: $text-primary;
+            background: $bg-panel;
+            color: $text;
         }
 
         &--active {
-            background-color: rgba($accent, 0.1);
+            background: rgba($accent, 0.1);
             color: $accent;
-
-            .interview-nav__icon svg {
-                stroke: $accent;
-            }
+            border: 1px solid rgba($accent, 0.15);
         }
     }
 
@@ -108,6 +157,64 @@ $severity-low: #3fb950;
         align-items: center;
         flex-shrink: 0;
     }
+
+    .nav-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid $border;
+    }
+
+    .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.55rem 0.75rem;
+        background: none;
+        border: 1px solid $border;
+        border-radius: 0.5rem;
+        color: $muted;
+        font-family: $font-body;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            border-color: rgba($accent, 0.3);
+            color: $text;
+        }
+    }
+
+    .download-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.65rem 0.75rem;
+        background: linear-gradient(135deg, $accent 0%, #00c285 100%);
+        color: #050c12;
+        font-family: $font-body;
+        font-size: 0.82rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        box-shadow: 0 0 15px rgba(0, 229, 160, 0.25);
+        transition: all 0.2s;
+
+        &:hover {
+            box-shadow: 0 0 25px rgba(0, 229, 160, 0.45);
+            transform: translateY(-1px);
+        }
+    }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
 }
 
 // ── Center Content ────────────────────────────────────────────────────────────
@@ -115,45 +222,36 @@ $severity-low: #3fb950;
     flex: 1;
     padding: 1.75rem 2rem;
     overflow-y: auto;
-    min-height: initial;
-    max-height: calc(100vh - 3rem);
+    max-height: calc(100vh - 2.5rem);
     padding-bottom: 5rem;
-    align-items: flex-start;
 
-
-
-
-
-
-
-
-    section {
-        min-height: 100%;
-    }
+    section { min-height: 100%; }
 }
 
 .content-header {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.75rem;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid $border;
 
     h2 {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         font-weight: 700;
-        color: $text-primary;
+        color: $text;
         margin: 0;
+        letter-spacing: -0.01em;
     }
 
     &__count {
-        font-size: 0.8rem;
-        color: $text-muted;
-        background-color: $bg-panel;
+        font-family: $font-mono;
+        font-size: 0.72rem;
+        color: $muted;
+        background: $bg-panel;
         padding: 0.15rem 0.6rem;
         border-radius: 2rem;
-        border: 1px solid $border-color;
+        border: 1px solid $border;
     }
 }
 
@@ -161,55 +259,55 @@ $severity-low: #3fb950;
 .q-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.6rem;
 }
 
 .q-card {
-    background-color: $bg-panel;
-    border: 1px solid $border-color;
-    border-radius: 0.6rem;
+    background: $bg-panel;
+    border: 1px solid $border;
+    border-radius: 0.75rem;
     overflow: hidden;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 
-    &:hover {
-        border-color: lighten($border-color, 8%);
-    }
+    &:hover { border-color: rgba($accent, 0.25); }
 
     &__header {
         display: flex;
         align-items: flex-start;
         gap: 0.75rem;
-        padding: 0.9rem 1rem;
+        padding: 0.9rem 1.1rem;
         cursor: pointer;
         user-select: none;
     }
 
     &__index {
         flex-shrink: 0;
-        font-size: 0.7rem;
+        font-family: $font-mono;
+        font-size: 0.65rem;
         font-weight: 700;
         color: $accent;
-        background-color: rgba($accent, 0.1);
+        background: rgba($accent, 0.1);
         border: 1px solid rgba($accent, 0.2);
         border-radius: 0.3rem;
         padding: 0.15rem 0.4rem;
         margin-top: 2px;
+        letter-spacing: 0.03em;
     }
 
     &__question {
         flex: 1;
         margin: 0;
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         font-weight: 500;
-        color: $text-primary;
-        line-height: 1.5;
+        color: $text;
+        line-height: 1.55;
     }
 
     &__chevron {
         flex-shrink: 0;
-        color: $text-muted;
+        color: $muted;
         transition: transform 0.2s;
-        margin-top: 2px;
+        margin-top: 3px;
 
         &--open {
             transform: rotate(180deg);
@@ -218,12 +316,13 @@ $severity-low: #3fb950;
     }
 
     &__body {
-        padding: 0 1rem 1rem;
+        padding: 0 1.1rem 1rem;
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
-        border-top: 1px solid $border-color;
+        border-top: 1px solid $border;
         padding-top: 0.75rem;
+        animation: expand 0.2s ease;
     }
 
     &__section {
@@ -234,13 +333,14 @@ $severity-low: #3fb950;
         p {
             margin: 0;
             font-size: 0.835rem;
-            color: lighten($text-muted, 15%);
+            color: lighten(#3d6650, 20%);
             line-height: 1.6;
         }
     }
 
     &__tag {
-        font-size: 0.68rem;
+        font-family: $font-mono;
+        font-size: 0.63rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.06em;
@@ -250,34 +350,36 @@ $severity-low: #3fb950;
 
         &--intention {
             color: #a78bfa;
-            background-color: rgba(#a78bfa, 0.1);
+            background: rgba(#a78bfa, 0.1);
             border: 1px solid rgba(#a78bfa, 0.2);
         }
 
         &--answer {
-            color: #3fb950;
-            background-color: rgba(#3fb950, 0.1);
-            border: 1px solid rgba(#3fb950, 0.2);
+            color: $low;
+            background: rgba($low, 0.1);
+            border: 1px solid rgba($low, 0.2);
         }
     }
+}
+
+@keyframes expand {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 // ── Road Map ──────────────────────────────────────────────────────────────────
 .roadmap-list {
     display: flex;
     flex-direction: column;
-    gap: 0;
     position: relative;
 
-    // vertical timeline line
     &::before {
         content: '';
         position: absolute;
-        left: 28px;
-        top: 0;
-        bottom: 0;
+        left: 24px;
+        top: 0; bottom: 0;
         width: 2px;
-        background: linear-gradient(to bottom, $accent, rgba($accent, 0.1));
+        background: linear-gradient(to bottom, $accent, rgba($accent, 0.05));
         border-radius: 1px;
     }
 }
@@ -289,17 +391,17 @@ $severity-low: #3fb950;
     padding: 0.75rem 0 0.75rem 3.5rem;
     position: relative;
 
-    // dot on timeline
     &::before {
         content: '';
         position: absolute;
-        left: 21px;
-        top: 1.05rem;
+        left: 17px;
+        top: 1rem;
         width: 14px;
         height: 14px;
         border-radius: 50%;
-        background-color: $bg-card;
+        background: $bg-card;
         border: 2px solid $accent;
+        box-shadow: 0 0 8px rgba($accent, 0.4);
     }
 
     &__header {
@@ -309,10 +411,11 @@ $severity-low: #3fb950;
     }
 
     &__badge {
-        font-size: 0.7rem;
+        font-family: $font-mono;
+        font-size: 0.65rem;
         font-weight: 700;
         color: $accent;
-        background-color: rgba($accent, 0.1);
+        background: rgba($accent, 0.1);
         border: 1px solid rgba($accent, 0.25);
         padding: 0.1rem 0.5rem;
         border-radius: 2rem;
@@ -320,9 +423,9 @@ $severity-low: #3fb950;
 
     &__focus {
         margin: 0;
-        font-size: 0.95rem;
+        font-size: 0.92rem;
         font-weight: 600;
-        color: $text-primary;
+        color: $text;
     }
 
     &__tasks {
@@ -331,14 +434,14 @@ $severity-low: #3fb950;
         padding: 0;
         display: flex;
         flex-direction: column;
-        gap: 0.35rem;
+        gap: 0.3rem;
 
         li {
             display: flex;
             align-items: flex-start;
             gap: 0.5rem;
-            font-size: 0.845rem;
-            color: lighten($text-muted, 12%);
+            font-size: 0.835rem;
+            color: #5a8a72;
             line-height: 1.5;
         }
     }
@@ -348,7 +451,7 @@ $severity-low: #3fb950;
         width: 5px;
         height: 5px;
         border-radius: 50%;
-        background-color: $text-muted;
+        background: $muted;
         margin-top: 8px;
     }
 }
@@ -360,29 +463,28 @@ $severity-low: #3fb950;
     padding: 1.75rem 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
 .sidebar-divider {
     height: 1px;
-    background-color: $border-color;
+    background: $border;
 }
 
-// Match Score
+// ── Match Score ───────────────────────────────────────────────────────────────
 .match-score {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
+    gap: 0.75rem;
 
     &__label {
-        font-size: 0.75rem;
-        font-weight: 600;
+        font-family: $font-mono;
+        font-size: 0.65rem;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: $text-muted;
+        letter-spacing: 0.1em;
+        color: $muted;
         margin: 0;
-        align-self: flex-start;
     }
 
     &__ring {
@@ -393,87 +495,115 @@ $severity-low: #3fb950;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border: 4px solid;
+        border: 3px solid;
+        position: relative;
 
         &.score--high {
-            border-color: $severity-low;
+            border-color: $low;
+            box-shadow: 0 0 20px rgba($low, 0.2);
         }
-
         &.score--mid {
-            border-color: $severity-medium;
+            border-color: $mid;
+            box-shadow: 0 0 20px rgba($mid, 0.2);
         }
-
         &.score--low {
-            border-color: $severity-high;
+            border-color: $high;
+            box-shadow: 0 0 20px rgba($high, 0.2);
         }
     }
 
     &__value {
         font-size: 1.6rem;
         font-weight: 800;
-        color: $text-primary;
+        color: $text;
         line-height: 1;
+        font-family: $font-mono;
     }
 
     &__pct {
-        font-size: 0.75rem;
-        color: $text-muted;
-        margin-top: -2px;
+        font-family: $font-mono;
+        font-size: 0.7rem;
+        color: $muted;
     }
 
     &__sub {
         margin: 0;
         font-size: 0.75rem;
-        color: $severity-low;
-        text-align: center;
+        color: $low;
     }
 }
 
-// Skill Gaps
+// ── Skill Gaps ────────────────────────────────────────────────────────────────
 .skill-gaps {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
 
     &__label {
-        font-size: 0.75rem;
-        font-weight: 600;
+        font-family: $font-mono;
+        font-size: 0.65rem;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: $text-muted;
+        letter-spacing: 0.1em;
+        color: $muted;
         margin: 0;
     }
 
     &__list {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: 0.4rem;
     }
 }
 
 .skill-tag {
-    font-size: 0.775rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    padding: 0.3rem 0.7rem;
-    border-radius: 0.4rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 0.35rem;
     border: 1px solid;
     cursor: default;
 
-    &--high {
-        color: $severity-high;
-        background-color: rgba($severity-high, 0.1);
-        border-color: rgba($severity-high, 0.25);
+    &--high  { color: $high; background: rgba($high, 0.1); border-color: rgba($high, 0.25); }
+    &--medium { color: $mid; background: rgba($mid, 0.1); border-color: rgba($mid, 0.25); }
+    &--low   { color: $low; background: rgba($low, 0.1); border-color: rgba($low, 0.25); }
+}
+
+// ── Sidebar Stats ─────────────────────────────────────────────────────────────
+.sidebar-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    &__label {
+        font-family: $font-mono;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: $muted;
+        margin: 0;
+    }
+}
+
+.stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 0.75rem;
+    background: $bg-panel;
+    border: 1px solid $border;
+    border-radius: 0.5rem;
+
+    &__name {
+        font-size: 0.78rem;
+        color: $muted;
     }
 
-    &--medium {
-        color: $severity-medium;
-        background-color: rgba($severity-medium, 0.1);
-        border-color: rgba($severity-medium, 0.25);
-    }
-
-    &--low {
-        color: $severity-low;
-        background-color: rgba($severity-low, 0.1);
-        border-color: rgba($severity-low, 0.25);
+    &__val {
+        font-family: $font-mono;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: $accent;
     }
 }

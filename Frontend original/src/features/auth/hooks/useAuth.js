@@ -4,7 +4,7 @@ import { login, register, logout, getMe } from "../services/authService"
 import { useEffect } from "react"
 
 export const useAuth = () => {
-    const { loading, setLoading, user, setUser, message, setMessage, initialized, setInitialized } = useContext(AuthContext)
+    const { loading, setLoading, user, setUser, message, setMessage } = useContext(AuthContext)
 
     const handleLogin = async ({ email, password }) => {
         setLoading(true)
@@ -20,10 +20,10 @@ export const useAuth = () => {
         }
     }
 
-    const handleRegister = async ({ username, email, password }) => {
+    const handleRegister = async ({ name, email, password }) => {
         setLoading(true)
         try {
-            const data = await register({ username, email, password })
+            const data = await register({ name, email, password })
             setUser(data.user)
             setMessage({ type: 'success', text: data.message || 'Registration successful' })
         } catch (error) {
@@ -49,9 +49,6 @@ export const useAuth = () => {
     }
 
     useEffect(() => {
-        if(initialized) {
-            return  // already ran once, don't call again
-        }
         const getAndSetUser = async () => {
             try {
                 const data = await getMe()
@@ -60,11 +57,10 @@ export const useAuth = () => {
                 console.error("Failed to fetch user:", error)
             } finally {
                 setLoading(false)
-                setInitialized(true)
             }
         }
         getAndSetUser()
-    }, [initialized])
+    }, [])
 
     useEffect(() => {
         if (message.text) {
