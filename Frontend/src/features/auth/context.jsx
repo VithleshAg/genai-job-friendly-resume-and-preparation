@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
     const [message, setMessage] = useState({ type: '', text: '' })
     const [initialized, setInitialized] = useState(false)
+    const [token, setToken] = useState(localStorage.getItem('token') || null)
 
     if(message.text && message.type === 'success')
         toast.success(message.text)
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
         toast.error(message.text) 
 
     return (
-        <AuthContext.Provider value={{ loading, setLoading, user, setUser, message, setMessage, initialized, setInitialized }}>
+        <AuthContext.Provider value={{ loading, setLoading, user, setUser, message, setMessage, initialized, setInitialized, token, setToken }}>
             <ToastContainer />
             {children}
         </AuthContext.Provider>
