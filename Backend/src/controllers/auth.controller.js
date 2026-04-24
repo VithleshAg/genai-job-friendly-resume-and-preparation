@@ -117,7 +117,7 @@ exports.login = async (req, res) => {
  */
 exports.logout = async (req, res) => {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
 
         if (!token) {
             return res.status(400).json({ message: "No token provided" });
